@@ -1,0 +1,95 @@
+var MAX = {
+    token: null,
+    user_id: null,
+    chat_id: null,
+    text: null,
+    format: null,
+    disable_link_preview: null,
+    notify: null,
+    sendMessage: function () {
+        var request = new HttpRequest(),
+            url = 'https://platform-api.max.ru/messages',
+            query = [],
+            data,
+            response;
+        if (MAX.user_id) {
+            query.push('user_id=' + encodeURIComponent(MAX.user_id));
+        }
+        if (MAX.chat_id) {
+            query.push('chat_id=' + encodeURIComponent(MAX.chat_id));
+        }
+        if (query.length > 0) {
+            url += '?' + query.join('&');
+        }
+        request.addHeader('Content-Type: application/json');
+        request.addHeader('Authorization: ' + MAX.token);
+        var body = {
+            text: MAX.text
+        };
+        if (MAX.format !== null) {
+            body.format = MAX.format;
+        }
+        if (MAX.disable_link_preview !== null) {
+            body.disable_link_preview = MAX.disable_link_preview;
+        }
+        if (MAX.notify !== null) {
+            body.notify = MAX.notify;
+        }
+        data = JSON.stringify(body);
+        Zabbix.Log(4, '[ MAX webhook ] URL: ' + url);
+        Zabbix.Log(4, '[ MAX webhook ] body: ' + data);
+        response = request.post(url, data);
+        Zabbix.Log(4, '[ MAX webhook ] HTTP code: ' + request.getStatus());
+        Zabbix.Log(4, '[ MAX webhook ] Raw response: ' + response);
+        if (request.getStatus() !== 200) {
+            throw 'HTTP status code ' + request.getStatus();
+        }
+        try {
+            response = JSON.parse(response);
+        }
+        catch (error) {
+            throw 'Invalid JSON in response: ' + error;
+        }
+        if (typeof response.message === 'undefined') {
+            throw 'Unexpected response: ' + JSON.stringify(response);
+        }
+    }
+};
+try {
+    var params = JSON.parse(value);
+
+    if (typeof params.Token === 'undefined' || params.Token === '') {
+        throw 'Incorrect value is given for parameter "Token": parameter is missing';
+    }
+    MAX.token = params.Token;
+    // Либо UserId, либо ChatId (что-то одно обязательно)
+    if (typeof params.UserId !== 'undefined' && params.UserId !== '') {
+        MAX.user_id = params.UserId;
+    }
+    if (typeof params.ChatId !== 'undefined' && params.ChatId !== '') {
+        MAX.chat_id = params.ChatId;
+    }
+    if (!MAX.user_id && !MAX.chat_id) {
+        throw 'Neither "UserId" nor "ChatId" parameter is specified';
+    }
+    MAX.text = params.Subject + '\n' + params.Message;
+    if (typeof params.Format !== 'undefined' && params.Format !== '') {
+        var allowedFormats = ['markdown', 'html'];
+        if (allowedFormats.indexOf(params.Format) === -1) {
+            throw 'Incorrect value is given for parameter "Format": must be "markdown" or "html"';
+        }
+        MAX.format = params.Format;
+    }
+    if (typeof params.DisableLinkPreview !== 'undefined' && params.DisableLinkPreview !== '') {
+        MAX.disable_link_preview = (params.DisableLinkPreview === 'true' || params.DisableLinkPreview === '1');
+    }
+    if (typeof params.Notify !== 'undefined' && params.Notify !== '') {
+        MAX.notify = (params.Notify === 'true' || params.Notify === '1');
+    }
+    MAX.sendMessage();
+    return 'OK';
+}
+catch (error) {
+    Zabbix.Log(4, '[ MAX webhook ] notification failed: ' + error);
+    throw 'Sending failed: ' + error + '.';
+}
