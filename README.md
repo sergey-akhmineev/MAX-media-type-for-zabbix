@@ -87,7 +87,7 @@
 - для ChatId‑варианта: укажите `chat_id` чата MAX, например: -4567456745674576
 Важно: без двоеточий, пробелов и прочих символов, только число.
    - Остальные поля по вашему стандарту (severity, period и т.д.)
-4. Для запроса id чата надо, доабвить бота в чат и выполнить запрос : curl -k -X GET "https://platform-api.max.ru/chats"  -H "Authorization: {token}", вернется что то вроде:
+4. Для запроса id чата надо, добавить бота в чат и выполнить запрос : curl -k -X GET "https://platform-api.max.ru/chats"  -H "Authorization: {token}", вернется что то вроде:
    - {"chats":[{"chat_id":-4567456745674576,"type":"chat","status":"active","title":"Тестовый чат","last_event_time":1763965283164,"participants_count":3,"is_public":false,"messages_count":3}]}
    
 ## Шаблоны сообщений Zabbix
