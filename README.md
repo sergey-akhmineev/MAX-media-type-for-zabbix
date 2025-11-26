@@ -92,36 +92,39 @@
    
 ## Шаблоны сообщений Zabbix
 
-Problem
-• Message type: Problem
-Subject:
-❌ Problem: {EVENT.NAME}
-Message:
-❌ Проблема началась в {EVENT.TIME} {EVENT.DATE}
-Проблема: {EVENT.NAME}
-Хост: {HOST.NAME}
-Важность: {EVENT.SEVERITY}
-Данные: {EVENT.OPDATA}
-ID проблемы: {EVENT.ID}
-{TRIGGER.URL}
+# Problem  
+• Message type: Problem  
+Subject:  
+❌ Problem: {EVENT.NAME}  
+Message:  
+❌ Проблема началась в {EVENT.TIME} {EVENT.DATE}  
+Проблема: {EVENT.NAME}  
+Хост: {HOST.NAME}  
+Важность: {EVENT.SEVERITY}  
+Данные: {EVENT.OPDATA}  
+ID проблемы: {EVENT.ID}  
+{TRIGGER.URL}  
 
-Problem recovery
-• Message type: Problem recovery
-Subject:
-✅ Resolved: {EVENT.RECOVERY.NAME}
-Message:
-✅ Проблема решена в {EVENT.RECOVERY.TIME} {EVENT.RECOVERY.DATE}
-Проблема: {EVENT.RECOVERY.NAME}
-Длительность: {EVENT.DURATION}
-Хост: {HOST.NAME}
-Важность: {EVENT.SEVERITY}
-ID проблемы: {EVENT.ID}
-{TRIGGER.URL}
+# Problem recovery  
+• Message type: Problem recovery  
+Subject:  
+✅ Resolved: {EVENT.RECOVERY.NAME}  
+Message:  
+✅ Проблема решена в {EVENT.RECOVERY.TIME} {EVENT.RECOVERY.DATE}  
+Проблема: {EVENT.RECOVERY.NAME}  
+Длительность: {EVENT.DURATION}  
+Хост: {HOST.NAME}  
+Важность: {EVENT.SEVERITY}  
+ID проблемы: {EVENT.ID}  
+{TRIGGER.URL}  
 
-Problem update (по желанию)
-Subject:
-ℹ️ Updated: {EVENT.NAME}
-Message:
-{USER.FULLNAME} {EVENT.UPDATE.ACTION} проблему в {EVENT.UPDATE.DATE} {EVENT.UPDATE.TIME}.
-{EVENT.UPDATE.MESSAGE}
-Текущий статус: {EVENT.STATUS}, возраст: {EVENT.AGE}, подтверждена: {EVENT.ACK.STATUS}.
+# Problem update (по желанию)  
+Subject:  
+ℹ️ Updated: {EVENT.NAME}  
+Message:  
+{USER.FULLNAME} {EVENT.UPDATE.ACTION} проблему в {EVENT.UPDATE.DATE} {EVENT.UPDATE.TIME}.  
+{EVENT.UPDATE.MESSAGE}  
+Текущий статус: {EVENT.STATUS}, возраст: {EVENT.AGE}, подтверждена: {EVENT.ACK.STATUS}.  
+
+
+<img width="722" height="775" alt="image" src="https://github.com/user-attachments/assets/75ade0e2-9a49-4089-a864-616e6f8cecdf" />
